@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import android.view.Window
 import androidx.databinding.DataBindingUtil
 import com.example.kotlinpopup.R
@@ -35,37 +36,48 @@ class MyPopup private constructor(context: Context, private val popupParams: MyP
     private fun apply(dataBinding: ViewPopupBinding) {
         setCancelable(popupParams.cancelable)
 
-        dataBinding.let {
-            it.textTitle.text = popupParams.titleText
-            it.textBody.text = popupParams.bodyText
-            it.btnLeft.text = popupParams.leftBtnText
-            it.btnLeft.setOnClickListener() {
-                popupParams.leftBtnCallback(this)
+        dataBinding.apply {
+            textTitle.text = popupParams.titleText
+            textBody.text = popupParams.bodyText
+            btnLeft.apply {
+                visibility = if (popupParams.leftBtnHidden) View.GONE else View.VISIBLE
+                text = popupParams.leftBtnText
+                setOnClickListener() {
+                    popupParams.leftBtnCallback(this@MyPopup)
+                }
             }
-            it.btnRight.text = popupParams.rightBtnText
-            it.btnRight.setOnClickListener() {
-                popupParams.rightBtnCallback(this)
+            btnRight.apply {
+                visibility = if (popupParams.rightBtnHidden) View.GONE else View.VISIBLE
+                text = popupParams.rightBtnText
+                setOnClickListener() {
+                    popupParams.rightBtnCallback(this@MyPopup)
+                }
             }
         }
+
     }
 
     /**
      * MyPopup Builder Class
      */
-    class MyPopupBuilder () {
+    class MyPopupBuilder {
         private val myPopupParams = MyPopupParams()
 
         fun setCancelable(isCancel: Boolean) = apply { myPopupParams.cancelable = isCancel }
         fun setTitle(str: String) = apply { myPopupParams.titleText = str }
         fun setBody(str: String) = apply { myPopupParams.bodyText = str }
+        fun setLeftBtnHidden(isHidden: Boolean) = apply { myPopupParams.leftBtnHidden = isHidden }
         fun setLeftBtnText(str: String, callback: ButtonCallback) = apply {
             myPopupParams.apply {
+                leftBtnHidden = false
                 leftBtnText = str
                 leftBtnCallback = callback
             }
         }
+        fun setRightBtnHidden(isHidden: Boolean)  = apply { myPopupParams.rightBtnHidden = isHidden }
         fun setRightBtnText(str: String, callback: ButtonCallback) = apply {
             myPopupParams.apply {
+                rightBtnHidden = false
                 rightBtnText = str
                 rightBtnCallback = callback
             }
@@ -85,9 +97,11 @@ class MyPopup private constructor(context: Context, private val popupParams: MyP
 
         var bodyText: String = ""
 
+        var leftBtnHidden: Boolean = true
         var leftBtnText: String = ""
         var leftBtnCallback: ButtonCallback = {}
 
+        var rightBtnHidden = true
         var rightBtnText: String = ""
         var rightBtnCallback: ButtonCallback = {}
     }

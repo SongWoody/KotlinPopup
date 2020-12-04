@@ -7,7 +7,7 @@ import com.example.popup.MyPopup
 object MyPopupFactory {
 
 
-    fun createBasicPopup(context: Context) {
+    fun showBasicPopup(context: Context) {
         MyPopup.builder()
             .setCancelable(false)
             .setTitle("Title")
@@ -17,7 +17,7 @@ object MyPopupFactory {
             .create(context).show()
     }
 
-    fun createFinishPopup(activity: AppCompatActivity) {
+    fun showFinishPopup(activity: AppCompatActivity) {
         MyPopup.builder()
             .setTitle("Activity Close")
             .setBody("Do you want to close the activity?")
@@ -27,5 +27,16 @@ object MyPopupFactory {
                 activity.finish()
             }
             .create(activity).show()
+    }
+
+    fun showOneBtnPopup(context: Context) {
+        MyPopup.builder()
+            .setTitle("OneButton Popup")
+            .setBody("OneButton Popup")
+            .setLeftBtnHidden(true)
+            .setRightBtnText("ok") { dialog ->
+                dialog.dismiss()
+            }
+            .create(context).show()
     }
 }

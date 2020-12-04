@@ -18,12 +18,22 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/basicPopupBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/app_name"
+            android:text="Basic Popup"
             android:textAllCaps="false"
             app:layout_constraintTop_toBottomOf="@id/textView"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"/>
+
+        <Button
+            android:id="@+id/oneBtnPopup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="One Button Popup"
+            android:textAllCaps="false"
+            app:layout_constraintTop_toBottomOf="@id/basicPopupBtn"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"/>
 
