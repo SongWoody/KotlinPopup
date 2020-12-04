@@ -32,16 +32,20 @@ class MyPopup private constructor(context: Context, private val popupParams: MyP
         apply(dataBinding)
     }
 
-    private fun apply(dataBinding: ViewPopupBinding) = dataBinding.let {
-        it.textTitle.text = popupParams.titleText
-        it.textBody.text = popupParams.bodyText
-        it.btnLeft.text = popupParams.leftBtnText
-        it.btnLeft.setOnClickListener() {
-            popupParams.leftBtnCallback(this)
-        }
-        it.btnRight.text = popupParams.rightBtnText
-        it.btnRight.setOnClickListener() {
-            popupParams.rightBtnCallback(this)
+    private fun apply(dataBinding: ViewPopupBinding) {
+        setCancelable(popupParams.cancelable)
+
+        dataBinding.let {
+            it.textTitle.text = popupParams.titleText
+            it.textBody.text = popupParams.bodyText
+            it.btnLeft.text = popupParams.leftBtnText
+            it.btnLeft.setOnClickListener() {
+                popupParams.leftBtnCallback(this)
+            }
+            it.btnRight.text = popupParams.rightBtnText
+            it.btnRight.setOnClickListener() {
+                popupParams.rightBtnCallback(this)
+            }
         }
     }
 
@@ -51,6 +55,7 @@ class MyPopup private constructor(context: Context, private val popupParams: MyP
     class MyPopupBuilder () {
         private val myPopupParams = MyPopupParams()
 
+        fun setCancelable(isCancel: Boolean) = apply { myPopupParams.cancelable = isCancel }
         fun setTitle(str: String) = apply { myPopupParams.titleText = str }
         fun setBody(str: String) = apply { myPopupParams.bodyText = str }
         fun setLeftBtnText(str: String, callback: ButtonCallback) = apply {
@@ -75,6 +80,7 @@ class MyPopup private constructor(context: Context, private val popupParams: MyP
      * MyPopup Params Class
      */
     private class MyPopupParams {
+        var cancelable = true
         var titleText: String = ""
 
         var bodyText: String = ""
